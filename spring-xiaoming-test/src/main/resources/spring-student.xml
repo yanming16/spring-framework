@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ spring-student.xml
+  ~ Copyright 2020 Qunhe Tech, all rights reserved.
+  ~ Qunhe PROPRIETARY/CONFIDENTIAL, any form of usage is subject to approval.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="teacher" class="com.xiaoming.po.Teacher">
+		<property name="student" ref="student"/>
+	</bean>
+
+	<bean id="student" class="com.xiaoming.po.Student">
+		<property name="id" value="1"/>
+		<property name="name" value="xiaoming"/>
+	</bean>
+</beans>
