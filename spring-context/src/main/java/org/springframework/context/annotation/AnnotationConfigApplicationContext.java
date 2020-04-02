@@ -84,6 +84,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... annotatedClasses) {
 		this();
+		// 注册 bean
 		register(annotatedClasses);
 		refresh();
 	}
@@ -151,6 +152,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * e.g. {@link Configuration @Configuration} classes
 	 * @see #scan(String...)
 	 * @see #refresh()
+	 *
+	 * 注册待处理的注解标记的类，对于这些新类，必须调用 refresh 方法刷新到 spring 的上下文中
+	 * 比如 被 @Configuration 注解的类
 	 */
 	@Override
 	public void register(Class<?>... annotatedClasses) {

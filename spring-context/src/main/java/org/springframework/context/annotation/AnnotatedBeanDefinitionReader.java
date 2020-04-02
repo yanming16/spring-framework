@@ -130,6 +130,8 @@ public class AnnotatedBeanDefinitionReader {
 	 * annotated class more than once has no additional effect.
 	 * @param annotatedClasses one or more annotated classes,
 	 * e.g. {@link Configuration @Configuration} classes
+	 *
+	 * 注册需要待处理的被注解注释的类，该方法保持 幂等 ，如果有重复的类调用了该方法，得出的是相同的结果
 	 */
 	public void register(Class<?>... annotatedClasses) {
 		for (Class<?> annotatedClass : annotatedClasses) {
@@ -140,6 +142,7 @@ public class AnnotatedBeanDefinitionReader {
 	/**
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
+	 * 根据参数的 bean 的 class 对象，注册 bean， 从类声明的注解派生它的元数据
 	 * @param annotatedClass the class of the bean
 	 */
 	public void registerBean(Class<?> annotatedClass) {
@@ -235,6 +238,7 @@ public class AnnotatedBeanDefinitionReader {
 	/**
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
+	 * 进行注册 bean
 	 * @param annotatedClass the class of the bean
 	 * @param name an explicit name for the bean
 	 * @param supplier a callback for creating an instance of the bean
