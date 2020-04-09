@@ -313,6 +313,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				checkMergedBeanDefinition(mbd, beanName, args);
 
 				// Guarantee initialization of beans that the current bean depends on.
+				// 获取当前 bean 的所有依赖的 bean，递归调用 getBean，知道取到一个没有任何依赖的 bean 为止
 				String[] dependsOn = mbd.getDependsOn();
 				if (dependsOn != null) {
 					for (String dep : dependsOn) {
@@ -332,9 +333,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 
 				// Create bean instance.
+				// 这里通过调用 createBean 创建 singleton bean 的实例，这里有个回调函数 getObject，会在 getSingleton 中调用
+				// objectFactory 的 createBean
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
+							// 这里是具体的创建 singleton bean 的具体方法
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
@@ -348,6 +352,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 
+				// 这里创建 prototype bean
 				else if (mbd.isPrototype()) {
 					// It's a prototype -> create a new instance.
 					Object prototypeInstance = null;
@@ -394,6 +399,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 
 		// Check if required type matches the type of the actual bean instance.
+		// 这里对创建的 bean 进行类型检查，如果没有问题，就返回这个新创建的 bean， 这个 bean 已经包含了依赖关系的 bean
 		if (requiredType != null && !requiredType.isInstance(bean)) {
 			try {
 				T convertedBean = getTypeConverter().convertIfNecessary(bean, requiredType);

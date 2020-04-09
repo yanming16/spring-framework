@@ -88,6 +88,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 		}
 		else {
 			// Must generate CGLIB subclass.
+			// 创建 cglib 的子类的实例
 			return instantiateWithMethodInjection(bd, beanName, owner);
 		}
 	}

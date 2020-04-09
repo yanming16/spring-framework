@@ -106,6 +106,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 		/**
 		 * Create a new instance of a dynamically generated subclass implementing the
 		 * required lookups.
+		 * 创建一个动态生成的子类实例对象（cglib）
 		 * @param ctor constructor to use. If this is {@code null}, use the
 		 * no-arg constructor (no parameterization, or Setter Injection)
 		 * @param args arguments to use for the constructor.
@@ -142,6 +143,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 		 * definition, using CGLIB.
 		 */
 		private Class<?> createEnhancedSubclass(RootBeanDefinition beanDefinition) {
+			// 生成 Enhancer 对象，并为 enhancer 对象设置生成 java 对象的参数，比如基类，回调方法等
 			Enhancer enhancer = new Enhancer();
 			enhancer.setSuperclass(beanDefinition.getBeanClass());
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
