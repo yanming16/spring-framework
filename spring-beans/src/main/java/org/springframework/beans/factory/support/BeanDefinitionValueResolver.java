@@ -108,6 +108,7 @@ class BeanDefinitionValueResolver {
 	public Object resolveValueIfNecessary(Object argName, @Nullable Object value) {
 		// We must check each value to see whether it requires a runtime reference
 		// to another bean to be resolved.
+		// 判断是哪种 beanReference
 		if (value instanceof RuntimeBeanReference) {
 			RuntimeBeanReference ref = (RuntimeBeanReference) value;
 			return resolveReference(argName, ref);
@@ -168,6 +169,8 @@ class BeanDefinitionValueResolver {
 			}
 			return resolveManagedArray(argName, (List<?>) value, elementType);
 		}
+
+		// 这些会递归调用该方法
 		else if (value instanceof ManagedList) {
 			// May need to resolve contained runtime references.
 			return resolveManagedList(argName, (List<?>) value);
@@ -302,7 +305,9 @@ class BeanDefinitionValueResolver {
 	private Object resolveReference(Object argName, RuntimeBeanReference ref) {
 		try {
 			Object bean;
+			// 获取该 bean 的 class type
 			Class<?> beanType = ref.getBeanType();
+			// 判断是否有父亲容器，如果有，去父亲容器获取
 			if (ref.isToParent()) {
 				BeanFactory parent = this.beanFactory.getParentBeanFactory();
 				if (parent == null) {
@@ -312,6 +317,7 @@ class BeanDefinitionValueResolver {
 									" in parent factory: no parent factory available");
 				}
 				if (beanType != null) {
+					// 在当前的ioc容器中去获取 bean，这里会触发一个 getBean 的过程，就是我们说的 beanDefinition -> bean instance 的过程
 					bean = parent.getBean(beanType);
 				}
 				else {

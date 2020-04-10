@@ -290,6 +290,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 		Assert.state(tokens.keys != null, "No token keys");
 		String lastKey = tokens.keys[tokens.keys.length - 1];
 
+		// 对 array 进行注入
 		if (propValue.getClass().isArray()) {
 			Class<?> requiredType = propValue.getClass().getComponentType();
 			int arrayIndex = Integer.parseInt(lastKey);
@@ -387,6 +388,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 		System.arraycopy(tokens.keys, 0, getterTokens.keys, 0, tokens.keys.length - 1);
 
 		Object propValue;
+		// getPropertyValue 取得 bean 中对注入对象的引用，比如 array， list， map， set 等
 		try {
 			propValue = getPropertyValue(getterTokens);
 		}
